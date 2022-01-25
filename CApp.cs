@@ -45,7 +45,7 @@ public class CApp
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) return false;
 
-        _window = SDL_CreateWindow("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL | SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
+        _window = SDL_CreateWindow("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL);
         if (_window == IntPtr.Zero) return false;
 
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");

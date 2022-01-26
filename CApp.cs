@@ -1,5 +1,6 @@
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
+using static SDL2.SDL_image;
 using Secret.Utils;
 using System.Numerics;
 
@@ -58,6 +59,7 @@ public class CApp
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) return false;
         if (TTF_Init() < 0) return false;
+        if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG) < 0) return false;
 
         Window = SDL_CreateWindow
             ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL);
@@ -82,7 +84,8 @@ public class CApp
     {
         SDL_SetRenderDrawColor(Renderer, 15, 15, 15, 255);
         SDL_RenderClear(Renderer);
-        RenderUtils.DrawText(new Vector2(0, 0), "cool text", color, Fonts.MontserratBlack(30));
+        RenderUtils.DrawText(new Vector2(0, 0), "cool text (this one's italic)", color, Fonts.MontserratBlack(30));
+        RenderUtils.DrawText(new Vector2(0, 50), "more text to see if i can render more than one", color, Fonts.MontserratBlack(30));
     }
 
     public void OnRender()
@@ -92,6 +95,8 @@ public class CApp
 
     public void OnCleanup()
     {
+        TTF_Quit();
+        IMG_Quit();
         SDL_Quit();
     }
 }

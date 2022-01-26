@@ -13,6 +13,7 @@ public class RenderUtils
     private IntPtr _surface;
     private IntPtr _textTexture;
     private IntPtr _imgTexture;
+    private SDL_Rect _textRect = new();
 
     public RenderUtils(CApp app)
     {
@@ -34,10 +35,19 @@ public class RenderUtils
 
     public void DrawText(Vector2 pos, string text, SDL_Color color, IntPtr font)
     {
-        if (font == IntPtr.Zero) throw new Exception("HEY IT FUCKING RETURNED NULL");
+        if (font == IntPtr.Zero) throw new Exception("Selected font returned NULL (0)");
         _surface = TTF_RenderText_Blended(font, text, color);
         _textTexture = SDL_CreateTextureFromSurface(_app.Renderer, _surface);
-        SDL_QueryTexture(_textTexture, out _, out _, out _, out _);
+        SDL_Rect rect = new();
+        SDL_Rect arg3 = new();
+
+        SDL_QueryTexture(_textTexture, out _, out _, out arg3.w, out arg3.h);
+        rect.x = (int)pos.X;
+        rect.y = (int)pos.Y;
+        rect.w = arg3.w;
+        rect.h = arg3.h;
+        
+        SDL_RenderCopy(_app.Renderer, _textTexture, ref arg3, ref rect);
     }
 
     public void DrawImage(string path)

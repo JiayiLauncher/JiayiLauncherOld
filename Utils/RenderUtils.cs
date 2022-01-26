@@ -34,7 +34,8 @@ public class RenderUtils
 
     public void DrawText(Vector2 pos, string text, SDL_Color color, IntPtr font)
     {
-        _surface = TTF_RenderUTF8_Blended(font, text, color);
+        if (font == IntPtr.Zero) throw new Exception("HEY IT FUCKING RETURNED NULL");
+        _surface = TTF_RenderText_Blended(font, text, color);
         _textTexture = SDL_CreateTextureFromSurface(_app.Renderer, _surface);
         SDL_QueryTexture(_textTexture, out _, out _, out _, out _);
     }

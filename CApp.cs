@@ -1,5 +1,6 @@
 using static SDL2.SDL;
 using Secret.Utils;
+using System.Numerics;
 
 namespace Secret;
 
@@ -15,11 +16,18 @@ public class CApp
     public IntPtr Window;
     public IntPtr Renderer;
 
+    private SDL_Color color;
+
     public CApp()
     {
         Window = IntPtr.Zero;
         Running = true;
         RenderUtils = new(this);
+        color = new SDL_Color();
+        color.r = 255;
+        color.g = 0;
+        color.b = 0;
+        color.a = 255;
     }
 
     public void OnExecute()
@@ -72,6 +80,7 @@ public class CApp
     {
         SDL_SetRenderDrawColor(Renderer, 15, 15, 15, 255);
         SDL_RenderClear(Renderer);
+        RenderUtils.DrawRect(new Vector2(0, 0), new Vector2(100, 100), color);
     }
 
     public void OnRender()

@@ -16,7 +16,8 @@ public class Picture : Element
 
     public Picture(Vector2 position, string path) : base(position, new SDL_Color())
     {
-        Path = path;
+        // make the path start at the current directory
+        Path = $"{Directory.GetCurrentDirectory()}/{path}";
         // refactoring this too
         _surface = IMG_Load(Path);
         _texture = SDL_CreateTextureFromSurface(Renderer, _surface);

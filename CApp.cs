@@ -42,10 +42,10 @@ public class CApp
 
         // let's try out our new text label
         TextLabel label = new(new Vector2(100, 100), color, "Hello World!", Fonts.MontserratBlack(30));
+        // render my profile picture (because why not)
+        Picture picture = new(new Vector2(100, 300), "Assets/Images/photo.jpg");
 
         SDL_Event cool;
-
-        OnLoop();
 
         while (Running)
         {
@@ -54,7 +54,7 @@ public class CApp
                 OnEvent(cool);
             }
 
-            //OnLoop();
+            OnLoop();
             OnRender();
 
             SDL_Delay(16);
@@ -67,7 +67,7 @@ public class CApp
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) return false;
         if (TTF_Init() < 0) return false;
-        if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG) < 0) return false;
+        if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG | IMG_InitFlags.IMG_INIT_JPG) < 0) return false;
 
         Window = SDL_CreateWindow
             ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL);

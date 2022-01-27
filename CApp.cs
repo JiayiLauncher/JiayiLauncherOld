@@ -3,6 +3,8 @@ using static SDL2.SDL_ttf;
 using static SDL2.SDL_image;
 using Secret.Utils;
 using System.Numerics;
+using Secret.UI;
+using Secret.UI.Elements;
 
 namespace Secret;
 
@@ -13,23 +15,24 @@ public class CApp
         get; private set;
     }
 
-    public RenderUtils RenderUtils;
-
     public IntPtr Window;
     public IntPtr Renderer;
 
     private SDL_Color color;
+    private IntPtr font;
+
+    public static List<Element> Elements = new();
 
     public CApp()
     {
         Window = IntPtr.Zero;
         Running = true;
-        RenderUtils = new(this);
         color = new SDL_Color();
         color.r = 255;
         color.g = 0;
         color.b = 0;
         color.a = 255;
+        font = Fonts.MontserratBlack(30); // stops my computer from dying
     }
 
     public void OnExecute()
@@ -37,7 +40,12 @@ public class CApp
         if (OnInit() == false)
             throw new Exception("Failed to initialize SDL: " + SDL_GetError());
 
+        // let's try out our new text label
+        TextLabel label = new(new Vector2(100, 100), color, "Hello World!", Fonts.MontserratBlack(30));
+
         SDL_Event cool;
+
+        OnLoop();
 
         while (Running)
         {
@@ -46,7 +54,7 @@ public class CApp
                 OnEvent(cool);
             }
 
-            OnLoop();
+            //OnLoop();
             OnRender();
 
             SDL_Delay(16);
@@ -75,17 +83,16 @@ public class CApp
 
     public void OnEvent(SDL_Event eventt)
     {
-        if (eventt.type == SDL_EventType.SDL_QUIT) Running = false;
-
-
+        foreach (var element in Elements)
+        {
+            element.OnEvent(eventt);
+        }
     }
 
     public void OnLoop()
     {
         SDL_SetRenderDrawColor(Renderer, 15, 15, 15, 255);
         SDL_RenderClear(Renderer);
-        RenderUtils.DrawText(new Vector2(0, 0), "cool text (this one's italic)", color, Fonts.MontserratBlack(30));
-        RenderUtils.DrawText(new Vector2(0, 50), "more text to see if i can render more than one", color, Fonts.MontserratBlack(30));
     }
 
     public void OnRender()

@@ -6,21 +6,13 @@ using static SDL2.SDL_image;
 
 namespace Secret.Utils;
 
-public class RenderUtils
+public static class RenderUtils
 {
-    public List<Element> Elements = new();
-    private CApp _app;
-    private IntPtr _surface;
-    private IntPtr _textTexture;
-    private IntPtr _imgTexture;
-    private SDL_Rect _textRect = new();
-
-    public RenderUtils(CApp app)
-    {
-        _app = app;
-    }
-
-    public void DrawRect(Vector2 pos, Vector2 size, SDL_Color color)
+    private static CApp _app = Program.App; // this is a bit of a hack, but it works (too lazy to refactor)
+    private static IntPtr _surface;
+    private static IntPtr _textTexture;
+    private static IntPtr _imgTexture;
+    public static void DrawRect(Vector2 pos, Vector2 size, SDL_Color color)
     {
         SDL_Rect rect = new();
         rect.x = (int)pos.X;
@@ -33,7 +25,7 @@ public class RenderUtils
 
     // i don't have outline rect :(
 
-    public void DrawText(Vector2 pos, string text, SDL_Color color, IntPtr font)
+    public static void DrawText(Vector2 pos, string text, SDL_Color color, IntPtr font)
     {
         if (font == IntPtr.Zero) throw new Exception("Selected font returned NULL (0)");
         _surface = TTF_RenderText_Blended(font, text, color);
@@ -50,17 +42,10 @@ public class RenderUtils
         SDL_RenderCopy(_app.Renderer, _textTexture, ref arg3, ref rect);
     }
 
-    public void DrawImage(string path)
+    public static void DrawImage(string path)
     {
         _surface = IMG_Load(path);
         _imgTexture = SDL_CreateTextureFromSurface(_app.Renderer, _surface);
         SDL_QueryTexture(_imgTexture, out _, out _, out _, out _);
-    }
-
-    public void Cleanup()
-    {
-        SDL_FreeSurface(_surface);
-        SDL_DestroyTexture(_imgTexture);
-        SDL_DestroyTexture(_textTexture);
     }
 }

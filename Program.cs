@@ -2,9 +2,9 @@
 
 internal static class Program
 {
+    public static CApp App = new();
     private static void Main(string[] args)
     {
-        CApp app = new();
-        app.OnExecute();
+        App.OnExecute();
     }
 }

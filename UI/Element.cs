@@ -7,13 +7,16 @@ public class Element
 {
     // basic properties for a UI element
     public Vector2 Position { get; set; }
-    public SDL_Color Color { get; set; }
+    public SDL_Color Color;
 
     // we want to inherit position from the parent so here's a property for that (this can be null!)
     public Element? Parent { get; set; }
 
     // the REAL position (this is calculated by the parent)
     internal Vector2 RealPosition { get; private set; }
+
+    // hacking again because Program.App.Renderer is pretty long
+    internal IntPtr Renderer = Program.App.Renderer;
 
     // constructor
     public Element(Vector2 position, SDL_Color color)

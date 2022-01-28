@@ -21,6 +21,19 @@ public class Rectangle : Element
         _rect.h = (int)Size.Y;
     }
 
+    // override UpdatePosition
+    public override void UpdatePosition()
+    {
+        // update real position by calling base.UpdatePosition()
+        base.UpdatePosition();
+
+        // update the rectangle
+        _rect.x = (int)RealPosition.X;
+        _rect.y = (int)RealPosition.Y;
+        _rect.w = (int)Size.X;
+        _rect.h = (int)Size.Y;
+    }
+
     public override void OnRender()
     {
         // update

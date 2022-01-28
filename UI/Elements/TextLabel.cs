@@ -36,10 +36,23 @@ public class TextLabel : Element
         _rect.h = _rect2.h;
     }
 
+    // override UpdatePosition
+    public override void UpdatePosition()
+    {
+        // update real position by calling base.UpdatePosition()
+        base.UpdatePosition();
+
+        // update the text rectangle
+        _rect.x = (int)RealPosition.X;
+        _rect.y = (int)RealPosition.Y;
+        _rect.w = _rect2.w;
+        _rect.h = _rect2.h;
+    }
+
     public override void OnRender()
     {
-        // update real position by calling base.OnRender()
-        base.OnRender();
+        // update
+        UpdatePosition();
 
         // proper rendering :)
         SDL_RenderCopy(Renderer, _textTexture, ref _rect2, ref _rect);

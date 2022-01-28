@@ -35,18 +35,12 @@ public class Button : Element
     // keep the default color somewhere for later
     SDL_Color _defaultColor = new();
 
-    public Button(Vector2 position, Vector2 size, string text, IntPtr font, SDL_Color color) : base(position, color)
+    public Button(Vector2 position, Vector2 size, string text, IntPtr font, SDL_Color color, SDL_Color textColor = new()) : base(position, color)
     {
         Text = text;
         Font = font;
         Size = size;
-        
-        // text is white by default
-        TextColor = new SDL_Color();
-        TextColor.r = 255;
-        TextColor.g = 255;
-        TextColor.b = 255;
-        TextColor.a = 255;
+        TextColor = textColor;
 
         // set the button states colors depending on the default color
         _hoverColor = new SDL_Color();
@@ -88,10 +82,29 @@ public class Button : Element
         _rect.h = _rect2.h;
     }
 
+    // override UpdatePosition
+    public override void UpdatePosition()
+    {
+        // update real position by calling base.UpdatePosition()
+        base.UpdatePosition();
+
+        // update the button rectangle
+        _buttonRect.x = (int)RealPosition.X;
+        _buttonRect.y = (int)RealPosition.Y;
+        _buttonRect.w = (int)Size.X;
+        _buttonRect.h = (int)Size.Y;
+
+        // center the text
+        _rect.x = (int)RealPosition.X + ((int)Size.X - _rect2.w) / 2;
+        _rect.y = (int)RealPosition.Y + ((int)Size.Y - _rect2.h) / 2;
+        _rect.w = _rect2.w;
+        _rect.h = _rect2.h;
+    }
+
     public override void OnRender()
     {
-        // update real position by calling base.OnRender()
-        base.OnRender();
+        // update
+        UpdatePosition();
 
         // update button color depending on button states
         if (IsHovered)

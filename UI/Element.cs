@@ -29,7 +29,7 @@ public class Element
         UpdatePosition();
     }
 
-    public void UpdatePosition()
+    public virtual void UpdatePosition()
     { 
         // if we have a parent, we need to calculate the real position
         if (Parent != null)

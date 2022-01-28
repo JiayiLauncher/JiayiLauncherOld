@@ -17,8 +17,11 @@ public class CApp
 
     public IntPtr Window;
     public IntPtr Renderer;
+    public IntPtr GLContext;
 
     private SDL_Color color;
+    private SDL_Color color2;
+    private SDL_Color yellow;
 
     public static List<Element> Elements = new();
 
@@ -31,22 +34,24 @@ public class CApp
         color.g = 0;
         color.b = 0;
         color.a = 255;
+
+        color2 = new SDL_Color();
+        color2.r = 30;
+        color2.g = 30;
+        color2.b = 30;
+        color2.a = 255;
+
+        yellow = new SDL_Color();
+        yellow.r = 255;
+        yellow.g = 255;
+        yellow.b = 0;
+        yellow.a = 255;
     }
 
     public void OnExecute()
     {
         if (OnInit() == false)
             throw new Exception("Failed to initialize SDL: " + SDL_GetError());
-
-        // here's a text label, it wants to say hi
-        var textLabel = new TextLabel(new Vector2(100, 100), color, "Hello World!", Fonts.MontserratBlack(20));
-
-        // here's a button, it wants the console to say hi when clicked
-        var button = new Button(new Vector2(100, 200), new Vector2(150, 50), "Click me!", Fonts.MontserratBlack(20), color);
-        button.Click += (sender, e) => Console.WriteLine("Hello World!");
-
-        // some guy wanted a text label to say "sex" so here
-        var textLabel2 = new TextLabel(new Vector2(300, 100), color, "sex", Fonts.MontserratBold(12));
 
         SDL_Event cool;
 
@@ -60,7 +65,7 @@ public class CApp
             OnLoop();
             OnRender();
 
-            SDL_Delay(16);
+            //SDL_Delay(16);
         }
 
         OnCleanup();
@@ -68,9 +73,9 @@ public class CApp
 
     public bool OnInit()
     {
-        if (SDL_Init(SDL_INIT_EVERYTHING) < 0) return false;
+        if (SDL_Init(SDL_INIT_VIDEO) < 0) return false;
         if (TTF_Init() < 0) return false;
-        if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG) < 0) return false;
+        if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG | IMG_InitFlags.IMG_INIT_JPG) < 0) return false;
 
         Window = SDL_CreateWindow
             ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL);
@@ -78,7 +83,8 @@ public class CApp
 
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-        Renderer = SDL_CreateRenderer(Window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+        Renderer = SDL_CreateRenderer
+            (Window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
         if (Renderer == IntPtr.Zero) return false;
 
         return true;

@@ -35,7 +35,7 @@ public class Button : Element
     // keep the default color somewhere for later
     SDL_Color _defaultColor = new();
 
-    public Button(Vector2 position, Vector2 size, string text, IntPtr font, SDL_Color color, SDL_Color textColor = new()) : base(position, color)
+    public Button(Vector2 position, Vector2 size, string text, IntPtr font, SDL_Color color, SDL_Color textColor) : base(position, color)
     {
         Text = text;
         Font = font;

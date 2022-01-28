@@ -5,6 +5,7 @@ using Secret.Utils;
 using System.Numerics;
 using Secret.UI;
 using Secret.UI.Elements;
+using Secret.Screens;
 
 namespace Secret;
 
@@ -55,6 +56,9 @@ public class CApp
 
         SDL_Event cool;
 
+        // create example screen
+        var screen = new ExampleScreen();
+
         while (Running)
         {
             while (SDL_PollEvent(out cool) == 1) // true
@@ -86,6 +90,9 @@ public class CApp
         Renderer = SDL_CreateRenderer
             (Window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
         if (Renderer == IntPtr.Zero) return false;
+
+        // colors!
+        Colors.InitColors();
 
         return true;
     }

@@ -6,6 +6,9 @@ namespace Secret.Utils;
 // common utils
 public static class Common
 {
+    // window size
+    public static Vector2 WindowSize = new(900, 550);
+
     // is a position inside a certain rectangle
     public static bool IsInside(Vector2 position, Vector2 rectPosition, Vector2 rectSize)
     {

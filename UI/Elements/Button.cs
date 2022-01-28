@@ -5,118 +5,147 @@ using static SDL2.SDL_ttf;
 
 namespace Secret.UI.Elements;
 
-// button: do i have to explain this?
+// redoing the button code because it didn't work before
+// button: has a text label and a click event
 public class Button : Element
 {
     public string Text { get; set; }
     public IntPtr Font { get; set; }
-    public SDL_Color FontColor;
-    public SDL_Color HoverColor;
-    public SDL_Color ClickColor;
-    public bool Clicked { get; set; }
-    public bool Hover { get; set; }
-    public bool Enabled { get; set; } = true;
     public Vector2 Size { get; set; }
+    public SDL_Color TextColor;
 
-    // SDL
+    // SDL stuff
     private IntPtr _surface;
     private IntPtr _textTexture;
 
-    // event!
-    public event EventHandler<EventArgs> Click;
+    // rectangles
+    SDL_Rect _rect = new();
+    SDL_Rect _rect2 = new();
 
-    public Button(Vector2 position, Vector2 size, string text, IntPtr font) : base(position, new SDL_Color())
+    SDL_Rect _buttonRect = new();
+
+    // button states
+    public bool IsHovered { get; private set; }
+    public bool IsPressed { get; private set; }
+
+    // colors for the states
+    SDL_Color _hoverColor = new();
+    SDL_Color _pressedColor = new();
+
+    // keep the default color somewhere for later
+    SDL_Color _defaultColor = new();
+
+    public Button(Vector2 position, Vector2 size, string text, IntPtr font, SDL_Color color) : base(position, color)
     {
-        // alright let's do this
         Text = text;
         Font = font;
-    
-        // white text
-        FontColor = new SDL_Color();
-        FontColor.r = 255;
-        FontColor.g = 255;
-        FontColor.b = 255;
-        FontColor.a = 255;
+        Size = size;
+        
+        // text is white by default
+        TextColor = new SDL_Color();
+        TextColor.r = 255;
+        TextColor.g = 255;
+        TextColor.b = 255;
+        TextColor.a = 255;
 
-        // red will be default color
-        Color = new SDL_Color();
-        Color.r = 255;
-        Color.g = 0;
-        Color.b = 0;
-        Color.a = 255;
+        // set the button states colors depending on the default color
+        _hoverColor = new SDL_Color();
+        _pressedColor = new SDL_Color();
 
-        // hover color is a bit lighter than the default color
-        HoverColor = new SDL_Color();
-        HoverColor.r = 255;
-        HoverColor.g = 20;
-        HoverColor.b = 20;
-        HoverColor.a = 255;
+        // hover is a bit lighter than the default color
+        _hoverColor.r = (byte)(color.r + (255 - color.r) / 2.5);
+        _hoverColor.g = (byte)(color.g + (255 - color.g) / 2.5);
+        _hoverColor.b = (byte)(color.b + (255 - color.b) / 2.5);
+        _hoverColor.a = color.a;
 
-        // clicked color is a bit darker than the default color
-        ClickColor = new SDL_Color();
-        ClickColor.r = 200;
-        ClickColor.g = 0;
-        ClickColor.b = 0;
-        ClickColor.a = 255;
+        // pressed is a bit darker than the default color
+        _pressedColor.r = (byte)(color.r / 2.5);
+        _pressedColor.g = (byte)(color.g / 2.5);
+        _pressedColor.b = (byte)(color.b / 2.5);
+        _pressedColor.a = color.a;
 
-        // rendering time
-        // draw a filled rectangle
-        SDL_Rect rect = new();
-        rect.x = (int)Position.X;
-        rect.y = (int)Position.Y;
-        rect.w = (int)Size.X;
-        rect.h = (int)Size.Y;
+        // default is uhhhh... default
+        _defaultColor = color;
 
-        // change color depending on the button's state
-        if (Hover)
+        // init
+        // a rectangle for the button
+        _buttonRect.x = (int)RealPosition.X;
+        _buttonRect.y = (int)RealPosition.Y;
+        _buttonRect.w = (int)size.X;
+        _buttonRect.h = (int)size.Y;
+
+        // init text and put the text in the middle of the rectangle
+        if (Font == IntPtr.Zero) throw new Exception("Selected font returned NULL (0)");
+        _surface = TTF_RenderText_Blended(Font, Text, TextColor);
+        _textTexture = SDL_CreateTextureFromSurface(Renderer, _surface);
+
+        SDL_QueryTexture(_textTexture, out _, out _, out _rect2.w, out _rect2.h);
+
+        // center the text
+        _rect.x = (int)RealPosition.X + ((int)size.X - _rect2.w) / 2;
+        _rect.y = (int)RealPosition.Y + ((int)size.Y - _rect2.h) / 2;
+        _rect.w = _rect2.w;
+        _rect.h = _rect2.h;
+    }
+
+    public override void OnRender()
+    {
+        // update real position by calling base.OnRender()
+        base.OnRender();
+
+        // update button color depending on button states
+        if (IsHovered)
         {
-            SDL_SetRenderDrawColor(Renderer, HoverColor.r, HoverColor.g, HoverColor.b, HoverColor.a);
+            Color = _hoverColor;
         }
-        else if (Clicked)
+        else if (IsPressed)
         {
-            SDL_SetRenderDrawColor(Renderer, ClickColor.r, ClickColor.g, ClickColor.b, ClickColor.a);
+            Color = _pressedColor;
         }
         else
         {
-            SDL_SetRenderDrawColor(Renderer, Color.r, Color.g, Color.b, Color.a);
+            Color = _defaultColor;
         }
+        // proper rendering :)
+        // draw the rectangle
+        SDL_SetRenderDrawColor(Renderer, Color.r, Color.g, Color.b, Color.a);
+        SDL_RenderFillRect(Renderer, ref _buttonRect);
 
-        SDL_RenderFillRect(Renderer, ref rect);
-
-        // text rendering
-        if (Font == IntPtr.Zero) throw new Exception("Selected font returned NULL (0)");
-        _surface = TTF_RenderText_Blended(Font, Text, FontColor);
-        _textTexture = SDL_CreateTextureFromSurface(Renderer, _surface);
-        SDL_Rect rect2 = new();
-        SDL_Rect arg3 = new();
-
-        SDL_QueryTexture(_textTexture, out _, out _, out arg3.w, out arg3.h);
-        rect2.x = (int)Position.X + (int)(Size.X / 2) - (arg3.w / 2);
-        rect2.y = (int)Position.Y + (int)(Size.Y / 2) - (arg3.h / 2);
-        rect2.w = arg3.w;
-        rect2.h = arg3.h;
-
-        SDL_RenderCopy(Renderer, _textTexture, ref arg3, ref rect2);
+        // draw the text
+        SDL_RenderCopy(Renderer, _textTexture, ref _rect2, ref _rect);
     }
+
+    public event EventHandler Click;
 
     public override void OnEvent(SDL_Event e)
     {
-        if (Common.IsMouseInside(Position, Size, e))
+        base.OnEvent(e);
+
+        if (e.type == SDL_EventType.SDL_MOUSEBUTTONUP)
         {
-            if (e.type == SDL_EventType.SDL_MOUSEMOTION)
+            if (IsPressed && Common.IsMouseInside(RealPosition, Size, e))
             {
-                Hover = true;
-            }
-            else if (e.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
-            {
-                Clicked = true;
+                IsPressed = false;
+                IsHovered = true;
                 Click?.Invoke(this, EventArgs.Empty);
             }
+            else
+            {
+                IsPressed = false;
+                IsHovered = false;
+            }
         }
-        else
+        else if (e.type == SDL_EventType.SDL_MOUSEBUTTONDOWN)
         {
-            Hover = false;
-            Clicked = false;
+            if (Common.IsMouseInside(RealPosition, Size, e))
+            {
+                IsPressed = true;
+                IsHovered = false;
+            }
+        }
+        else if (e.type == SDL_EventType.SDL_MOUSEMOTION)
+        {
+            IsHovered = IsPressed ? false : Common.IsMouseInside(RealPosition, Size, e);
         }
     }
 }

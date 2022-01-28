@@ -15,23 +15,33 @@ public class TextLabel : Element
     private IntPtr _surface;
     private IntPtr _textTexture;
 
+    // rectangles
+    SDL_Rect _rect = new();
+    SDL_Rect _rect2 = new();
+
     public TextLabel(Vector2 position, SDL_Color color, string text, IntPtr font) : base(position, color)
     {
         Text = text;
         Font = font;
-        // refactoring text rendering, let's just put the code in DrawText here
+
+        // init
         if (Font == IntPtr.Zero) throw new Exception("Selected font returned NULL (0)");
         _surface = TTF_RenderText_Blended(Font, Text, Color);
         _textTexture = SDL_CreateTextureFromSurface(Renderer, _surface);
-        SDL_Rect rect = new();
-        SDL_Rect arg3 = new();
 
-        SDL_QueryTexture(_textTexture, out _, out _, out arg3.w, out arg3.h);
-        rect.x = (int)Position.X;
-        rect.y = (int)Position.Y;
-        rect.w = arg3.w;
-        rect.h = arg3.h;
+        SDL_QueryTexture(_textTexture, out _, out _, out _rect2.w, out _rect2.h);
+        _rect.x = (int)RealPosition.X;
+        _rect.y = (int)RealPosition.Y;
+        _rect.w = _rect2.w;
+        _rect.h = _rect2.h;
+    }
 
-        SDL_RenderCopy(Renderer, _textTexture, ref arg3, ref rect);
+    public override void OnRender()
+    {
+        // update real position by calling base.OnRender()
+        base.OnRender();
+
+        // proper rendering :)
+        SDL_RenderCopy(Renderer, _textTexture, ref _rect2, ref _rect);
     }
 }

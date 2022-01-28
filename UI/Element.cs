@@ -40,4 +40,11 @@ public class Element
 
     // event!!!
     public virtual void OnEvent(SDL_Event e) { }
+
+    // i found out how to properly render so here's a render event
+    public virtual void OnRender()
+    {
+        // update
+        UpdatePosition();
+    }
 }

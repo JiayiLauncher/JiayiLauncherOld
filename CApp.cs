@@ -11,10 +11,7 @@ namespace Secret;
 
 public class CApp
 {
-    public bool Running
-    {
-        get; private set;
-    }
+    public bool Running;
 
     public IntPtr Window;
     public IntPtr Renderer;
@@ -56,8 +53,8 @@ public class CApp
 
         SDL_Event cool;
 
-        // create example screen
-        var screen = new ExampleScreen();
+        // create titlebar
+        var titlebar = new Titlebar();
 
         while (Running)
         {
@@ -82,7 +79,7 @@ public class CApp
         if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG | IMG_InitFlags.IMG_INIT_JPG) < 0) return false;
 
         Window = SDL_CreateWindow
-            ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL);
+            ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL | SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
         if (Window == IntPtr.Zero) return false;
 
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");

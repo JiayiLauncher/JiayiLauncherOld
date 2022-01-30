@@ -1,6 +1,6 @@
 namespace Secret.Screens;
 
-public partial class ExampleScreen
+public partial class ExampleScreen : Screen
 {
     public ExampleScreen()
     {

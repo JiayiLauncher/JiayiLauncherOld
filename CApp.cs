@@ -23,6 +23,10 @@ public class CApp
 
     public static List<Element> Elements = new();
 
+    // delta time stuff
+    private ulong now;
+    private ulong last;
+
     public CApp()
     {
         Window = IntPtr.Zero;
@@ -53,15 +57,18 @@ public class CApp
 
         SDL_Event cool;
 
-        // create titlebar
-        var titlebar = new Titlebar();
-
         while (Running)
         {
             while (SDL_PollEvent(out cool) == 1) // true
             {
                 OnEvent(cool);
             }
+
+            // calculate delta time
+            last = now;
+            now = SDL_GetPerformanceCounter();
+
+            Common.DeltaTime = (double)((now - last) * 1000 / SDL_GetPerformanceFrequency());
 
             OnLoop();
             OnRender();
@@ -79,7 +86,7 @@ public class CApp
         if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG | IMG_InitFlags.IMG_INIT_JPG) < 0) return false;
 
         Window = SDL_CreateWindow
-            ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL | SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
+            ("Jiayi Launcher", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 550, SDL_WindowFlags.SDL_WINDOW_OPENGL);
         if (Window == IntPtr.Zero) return false;
 
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");

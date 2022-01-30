@@ -5,7 +5,7 @@ using Secret.Utils;
 
 namespace Secret.Screens;
 
-public partial class ExampleScreen
+public partial class ExampleScreen : Screen
 {
     // the design of this screen goes here
     // elements

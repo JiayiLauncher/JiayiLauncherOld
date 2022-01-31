@@ -1,6 +1,6 @@
 using static SDL2.SDL_ttf;
 
-namespace Secret.Utils;
+namespace JiayiLauncher.Utils;
 
 public static class Fonts
 {

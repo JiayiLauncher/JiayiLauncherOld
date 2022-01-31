@@ -1,4 +1,4 @@
-﻿namespace Secret;
+﻿namespace JiayiLauncher;
 
 internal static class Program
 {

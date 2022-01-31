@@ -1,9 +1,9 @@
-using Secret.UI.Elements;
+using JiayiLauncher.UI.Elements;
 using static SDL2.SDL;
 using System.Numerics;
-using Secret.Utils;
+using JiayiLauncher.Utils;
 
-namespace Secret.Screens;
+namespace JiayiLauncher.Screens;
 
 public partial class ExampleScreen : Screen
 {
@@ -40,7 +40,7 @@ public partial class ExampleScreen : Screen
             (new Vector2(0, 50), new Vector2(200, 50), "Button 2", Fonts.MontserratExtraBold(20), Colors.Button, Colors.Text);
         Button3 = new Button
             (new Vector2(0, 100), new Vector2(200, 50), "Button 3", Fonts.MontserratExtraBold(20), Colors.Button, Colors.Text);
-        
+
         Content = new Frame(new Vector2(200, 0), new Vector2(Common.WindowSize.X - 200, Common.WindowSize.Y), Colors.Layer1);
 
         MainText = new Frame(new Vector2(0, 0), new Vector2(Content.Size.X, 100), Colors.Background);

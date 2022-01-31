@@ -1,9 +1,9 @@
 using System.Numerics;
-using Secret.Screens;
-using Secret.UI.Elements;
-using Secret.Utils;
+using JiayiLauncher.Screens;
+using JiayiLauncher.UI.Elements;
+using JiayiLauncher.Utils;
 
-namespace Secret.Screens;
+namespace JiayiLauncher.Screens;
 
 // i'm lazy, so here's the screen class
 public class Screen

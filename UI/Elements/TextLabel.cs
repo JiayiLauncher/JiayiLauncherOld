@@ -1,9 +1,9 @@
-using Secret.Utils;
+using JiayiLauncher.Utils;
 using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
-namespace Secret.UI.Elements;
+namespace JiayiLauncher.UI.Elements;
 
 // label: it just draws text
 public class TextLabel : Element

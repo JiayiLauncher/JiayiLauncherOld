@@ -1,9 +1,9 @@
-using Secret.UI.Elements;
+using JiayiLauncher.UI.Elements;
 using static SDL2.SDL;
 using System.Numerics;
-using Secret.Utils;
+using JiayiLauncher.Utils;
 
-namespace Secret.Screens;
+namespace JiayiLauncher.Screens;
 
 public class Sidebar : Screen
 {

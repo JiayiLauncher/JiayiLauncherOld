@@ -1,4 +1,4 @@
-namespace Secret.Screens;
+namespace JiayiLauncher.Screens;
 
 public partial class ExampleScreen : Screen
 {

@@ -1,7 +1,7 @@
 using System.Numerics;
 using static SDL2.SDL;
 
-namespace Secret.UI;
+namespace JiayiLauncher.UI;
 
 public class Element
 {
@@ -30,7 +30,7 @@ public class Element
     }
 
     public virtual void UpdatePosition()
-    { 
+    {
         // if we have a parent, we need to calculate the real position
         if (Parent != null)
             RealPosition = Parent.RealPosition + Position;

@@ -1,7 +1,7 @@
 using static SDL2.SDL;
 using System.Numerics;
 
-namespace Secret.Utils;
+namespace JiayiLauncher.Utils;
 
 // common utils
 public static class Common

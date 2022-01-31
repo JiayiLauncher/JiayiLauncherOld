@@ -1,7 +1,7 @@
 using System.Numerics;
 using static SDL2.SDL;
 
-namespace Secret.UI.Elements;
+namespace JiayiLauncher.UI.Elements;
 
 // rectangle: rectangle
 // ...yeah that's about it

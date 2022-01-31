@@ -1,11 +1,11 @@
 using System.Numerics;
-using Secret.UI.Elements;
-using Secret.UI;
-using Secret.Screens;
+using JiayiLauncher.UI.Elements;
+using JiayiLauncher.UI;
+using JiayiLauncher.Screens;
 using static SDL2.SDL;
-using Secret.Utils;
+using JiayiLauncher.Utils;
 
-namespace Secret.Utils;
+namespace JiayiLauncher.Utils;
 
 // class for animating elements and screens
 public static class Animation

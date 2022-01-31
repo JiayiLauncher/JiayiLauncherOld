@@ -1,7 +1,7 @@
 using static SDL2.SDL;
 
 // static class for all of the colors we need so we don't have to create them every time
-namespace Secret.Utils
+namespace JiayiLauncher.Utils
 {
     public static class Colors
     {

@@ -1,8 +1,8 @@
-using Secret.Utils;
+using JiayiLauncher.Utils;
 using System.Numerics;
 using static SDL2.SDL;
 
-namespace Secret.UI.Elements;
+namespace JiayiLauncher.UI.Elements;
 
 // frame: container for other elements (can have a border)
 public class Frame : Element
@@ -26,7 +26,7 @@ public class Frame : Element
         BorderColor = borderColor;
 
         // draw a filled rectangle, if we have a border then draw that after
-        
+
         rect.x = (int)RealPosition.X;
         rect.y = (int)RealPosition.Y;
         rect.w = (int)Size.X;

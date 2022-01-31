@@ -1,9 +1,9 @@
-using Secret.Utils;
+using JiayiLauncher.Utils;
 using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 
-namespace Secret.UI.Elements;
+namespace JiayiLauncher.UI.Elements;
 
 // picture: exactly what it sounds like
 public class Picture : Element

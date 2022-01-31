@@ -1,13 +1,13 @@
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 using static SDL2.SDL_image;
-using Secret.Utils;
+using JiayiLauncher.Utils;
 using System.Numerics;
-using Secret.UI;
-using Secret.UI.Elements;
-using Secret.Screens;
+using JiayiLauncher.UI;
+using JiayiLauncher.UI.Elements;
+using JiayiLauncher.Screens;
 
-namespace Secret;
+namespace JiayiLauncher;
 
 public class CApp
 {

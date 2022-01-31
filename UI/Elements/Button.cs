@@ -1,9 +1,9 @@
-using Secret.Utils;
+using JiayiLauncher.Utils;
 using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
-namespace Secret.UI.Elements;
+namespace JiayiLauncher.UI.Elements;
 
 // redoing the button code because it didn't work before
 // button: has a text label and a click event

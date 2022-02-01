@@ -75,14 +75,15 @@ public class Manager
         if (CurrentScreen == null)
         {
             CurrentScreen = Screens[0];
-            CurrentScreen.Position = new(0, Common.WindowSize.Y);
-            Animation.EaseIn(CurrentScreen, new(50, 0), 0.5f);
+            CurrentScreen.Position = new(50, Common.WindowSize.Y);
+            Animation.Animate(CurrentScreen, new Vector2(50, 0), EasingStyle.Cubic, Animation.EasingDirection.In, 0.5f);
         }
         else
         {
             // otherwise, smoothly transition the current screen out, then transition the new screen in
-            Animation.EaseOut(CurrentScreen, new(Common.WindowSize.X, 0), 0.5f);
-            Animation.EaseIn(screen, new(50, 0), 0.5f);
+            Animation.Animate(CurrentScreen, new Vector2(Common.WindowSize.X, 0), EasingStyle.Cubic, Animation.EasingDirection.Out, 0.5f);
+            Animation.Animate(screen, new Vector2(50, 0), EasingStyle.Cubic, Animation.EasingDirection.In, 0.5f);
+            CurrentScreen = screen;
         }
     }
 }

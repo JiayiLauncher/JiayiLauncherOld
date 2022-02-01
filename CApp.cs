@@ -118,6 +118,9 @@ public class CApp
         SDL_SetRenderDrawColor(Renderer, 15, 15, 15, 255);
         SDL_RenderClear(Renderer);
 
+        // now is a very good time to update the animations
+        AnimationManager.Update((float)Common.DeltaTime);
+
         // here come the elements, they like to render things
         foreach (var element in Elements)
         {

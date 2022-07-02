@@ -1,5 +1,0 @@
-https://github.com/Acry/SDL2-Renderer/blob/master/src/1.c
-https://acry.github.io/SDL2-C.html
-https://github.com/Acry/SDL2-TTF
-https://github.com/Acry/SDL2-Text/tree/master/src
-https://github.com/Acry/SDL-Transitions
